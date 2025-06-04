@@ -42,29 +42,30 @@ while wart != 1 and wart != 2:
         
         print(f"J1 = {J1}, J2 = {J2}, k = {k}, b = {b}, n1 = {n1}, n2 = {n2}")
         
-theta0 = [0, 0]
+theta0 = 0
 dt = 0.01
 t = 10
-t_krok = np.arange(theta0, t, dt)  
+t_krok = np.arange(0, t, dt)  
         
 wart = 0
 print("Wybierz sygnal wejsciowy: 1 - prostokatny, 2 - trojkatny, 3 - harmoniczny")
-wart = int(input("Wybor: "))
+wart = 0
+f = 5
+Tm = []
 
 while wart != 1 and wart != 2 and wart != 3:
     wart = int(input("Wybor: "))
-    f = 5
 
     if wart == 1:
-        A = input("Amplituda = ")
+        A = int(input("Amplituda = "))
         Tm = A * signal.square(2 * np.pi * f * t_krok)
         
     if wart == 2:
-        A = input("Amplituda = ")
+        A = int(input("Amplituda = "))
         Tm = A * signal.sawtooth(2 * np.pi * f * t_krok, width = 0.5)
            
     if wart == 3:
-        A = input("Amplituda = ")
+        A = int(input("Amplituda = "))
         Tm = A * np.sin(2 * np.pi * f * t_krok)
         
         
@@ -78,14 +79,14 @@ def model(x, Tm):
 
 #%%
 
-def euler(t_krok): 
-    x = theta0
+def euler(Tm): 
+    x = [0, 0]
     lista_dx1 = []
     lista_dx2 = []
     
     for i in range(len(t_krok)):
-        t = Tm[i]
-        dx1, dx2 = model(x, t)
+        u = Tm[i]
+        dx1, dx2 = model(x, u)
         x[0] = x[0] + dx1 * dt
         x[1] = x[1] + dx2 * dt
         
@@ -94,8 +95,14 @@ def euler(t_krok):
         
     return  lista_dx1, lista_dx2
         
+
+lista_dx1, lista_dx2 = euler(Tm)    
         
-        
-    
+plt.plot(t_krok, lista_dx1)
+plt.plot(t_krok, lista_dx2)
+plt.grid()
+plt.show()
     
 
+
+# %%

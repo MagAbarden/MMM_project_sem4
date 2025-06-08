@@ -17,7 +17,7 @@ print("Aby wybrac przykladowe wartosci kliknij 1, aby wprowadzic recznie kliknij
 
 wart = 0
 while wart != 1 and wart != 2:
-    wart = int(input("Wartosc = "))
+    wart = int(input("Wartosc (1 albo 2)"))
 
     if wart == 1:
         
@@ -27,7 +27,6 @@ while wart != 1 and wart != 2:
         b = 1
         n1 = 1
         n2 = 2
-        
         print(f"J1 = {J1}, J2 = {J2}, k = {k}, b = {b}, n1 = {n1}, n2 = {n2}")
     
     if wart == 2:
@@ -40,15 +39,13 @@ while wart != 1 and wart != 2:
         
         print(f"J1 = {J1}, J2 = {J2}, k = {k}, b = {b}, n1 = {n1}, n2 = {n2}")
         
-        
 dt = 0.001
-t = 10
+t = 30
 t_krok = np.arange(0, t, dt)  
 
 
 #%% WYBÓR SYGNAŁU WEJSCIOWEGO
         
-wart = 0
 print("Wybierz sygnal wejsciowy: 1 - prostokatny, 2 - trojkatny, 3 - harmoniczny")
 wart = 0
 f = 1
@@ -77,8 +74,7 @@ while wart != 1 and wart != 2 and wart != 3:
            
     if wart == 3:
         A = float(input("Amplituda = "))
-        Tm = A * np.sin(2 * np.pi * f * t_krok)
-        
+        Tm = A * np.sin(2 * np.pi * f * t_krok)   
         
 def model(x, U):
     dx1 = x[1]
@@ -90,13 +86,14 @@ plt.title('Sygnal pobudzajacy Tm')
 plt.xlabel('t [s]')
 plt.ylabel('U [V]')
 plt.plot(t_krok, Tm, color = 'C4')
-plt.show
+plt.savefig("results/sygnal.png", dpi = 300)
+plt.show()
 
 
 #%% METODA EULERA
 
 def euler(Tm): 
-    x = [0, 0]
+    x = [3, 0]
     euler_dx1 = np.zeros(len(t_krok))
     euler_dx2 = np.zeros(len(t_krok))
     
@@ -115,7 +112,7 @@ euler_dx1, euler_dx2 = euler(Tm)
 
 #%% METODA RK4
 def rk4_step(f,t_krok,dt):
-    x = [0, 0]
+    x = [3, 0]
     rk4_1 = []
     rk4_2 = []
     for i in range(len(t_krok)):
@@ -139,6 +136,7 @@ plt.title('Wykres położenia ')
 plt.xlabel('czas')
 plt.ylabel('polożenie')
 plt.legend()
+plt.savefig("results/Polozenie.png", dpi=300)
 plt.show()
 
 
@@ -148,7 +146,9 @@ plt.title('Wykres prędkośći')
 plt.xlabel('czas')
 plt.ylabel('prędkość')
 plt.legend()
+plt.savefig("results/Predkosc.png", dpi=300)
 plt.show()  
+
 
 plt.plot(t_krok, rk4_1, color = '#7ec265', label = "położenie")
 plt.plot(t_krok, rk4_2, color = "#d9687b", ls = ':', label = "prędkość")
@@ -156,7 +156,9 @@ plt.title('RK4')
 plt.xlabel('czas')
 plt.ylabel('wartość')
 plt.legend()
+plt.savefig("results/RK4.png", dpi=300)
 plt.show()
+
 
 plt.plot(t_krok, euler_dx1, color = "#20f1f1", label = "położenie")
 plt.plot(t_krok, euler_dx2, color = "#4b0909", ls = ':', label = "prędkość")
@@ -164,4 +166,6 @@ plt.title('Euler')
 plt.xlabel('czas')
 plt.ylabel('wartość')
 plt.legend()
+plt.savefig("results/Euler.png", dpi=300)
 plt.show()
+

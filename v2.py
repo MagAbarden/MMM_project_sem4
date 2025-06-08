@@ -43,11 +43,12 @@ while wart != 1 and wart != 2:
         print(f"J1 = {J1}, J2 = {J2}, k = {k}, b = {b}, n1 = {n1}, n2 = {n2}")
         
 
-theta0 = 0
+#theta0 = 0
 dt = 0.001
 t = 10
 #t_krok = np.arange(0, t, dt)  
 t_krok = np.linspace(0, t, num = (t*(1/dt)))
+
 
 #%%
         
@@ -90,8 +91,12 @@ def model(x, U):
     
     return np.array([dx1, dx2])
 
+plt.title('Sygnal pobudzajacy Tm')
+plt.xlabel('t [s]')
+plt.ylabel('U [V]')
 plt.plot(t_krok, Tm)
 plt.show
+
 
 #%%
 
@@ -110,10 +115,6 @@ def euler(Tm):
         euler_dx2[i] = x[1]
         
     return  euler_dx1, euler_dx2
-           
-           
-
-#%%
 
 euler_dx1, euler_dx2 = euler(Tm) 
 
@@ -130,6 +131,5 @@ plt.ylabel('v [m/s]')
 plt.plot(t_krok, euler_dx2)
 plt.show()
     
- 
 
 # %%

@@ -1,5 +1,5 @@
 #%% IMPORTY
-
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -78,7 +78,7 @@ while wart != 1 and wart != 2 and wart != 3:
         
 def model(x, U):
     dx1 = x[1]
-    dx2 = (U*n2/n1 - b* x[1] - k*n2/n1* x[0]) / (J1*(n2/n1)**2 + J2)
+    dx2 = (U*n2/n1 - b* x[1] - k*(n2/n1)**2* x[0]) / (J1*(n2/n1)**2 + J2)
     
     return np.array([dx1, dx2])
 
@@ -91,7 +91,7 @@ plt.show()
 
 
 #%% METODA EULERA
-
+start_eu = time.perf_counter()
 def euler(Tm): 
     x = [3, 0]
     euler_dx1 = np.zeros(len(t_krok))
@@ -109,8 +109,10 @@ def euler(Tm):
     return  euler_dx1, euler_dx2
 
 euler_dx1, euler_dx2 = euler(Tm) 
-
+end_eu = time.perf_counter()
+print(f"Czas metody Eulera: {end_eu - start_eu:.6f} sekundy")
 #%% METODA RK4
+start_rk4 = time.perf_counter()
 def rk4_step(f,t_krok,dt):
     x = [3, 0]
     rk4_1 = []
@@ -128,7 +130,9 @@ def rk4_step(f,t_krok,dt):
     return rk4_1, rk4_2
 
 rk4_1, rk4_2 = rk4_step(model, t_krok,dt)
-
+end_rk4 = time.perf_counter()
+print(f"Czas metody RK4: {end_rk4 - start_rk4:.6f} sekundy")
+#%% RYSOWANIE WYKRESÓW
 plt.grid(True)
 plt.plot(t_krok, rk4_1, color = 'C1', lw = 5, label = "RK4")
 plt.plot(t_krok, euler_dx1, color = '0.0',ls = '--', label = "Euler")
@@ -168,4 +172,3 @@ plt.ylabel('wartość')
 plt.legend()
 plt.savefig("results/Euler.png", dpi=300)
 plt.show()
-
